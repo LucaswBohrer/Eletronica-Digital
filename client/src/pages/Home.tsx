@@ -325,89 +325,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact Form Section */}
-      <section className="py-16 sm:py-20 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <p className="text-xs font-mono text-blue-600 mb-2">[DIGITAL_DIAGNOSIS]</p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">O que vamos consertar hoje?</h2>
-            <p className="text-gray-600 text-sm sm:text-base">
-              Selecione o tipo de aparelho, informe a marca e modelo, descreva o defeito. Sua mensagem será enviada diretamente para o nosso WhatsApp.
-            </p>
-          </div>
-          
-          <div className="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200">
-            <p className="text-sm font-semibold text-gray-900 mb-4">1. Tipo de aparelho</p>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
-              {services.map((service) => {
-                const Icon = service.icon;
-                return (
-                  <button
-                    key={service.id}
-                    onClick={() => handleServiceSelect(service.id)}
-                    className={`p-4 rounded-lg border-2 transition-all text-center flex flex-col items-center gap-2 ${
-                      selectedService === service.id
-                        ? "border-green-500 bg-green-50"
-                        : "border-gray-200 hover:border-gray-300"
-                    }`}
-                  >
-                    <Icon className={`w-6 h-6 ${selectedService === service.id ? "text-green-600" : "text-gray-600"}`} />
-                    <span className="text-xs sm:text-sm font-medium text-gray-900">{service.title.split(" ")[0]}</span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Expandable Form Fields */}
-            {showFormFields && selectedService && (
-              <div className="mb-8 p-4 bg-blue-50 rounded-lg border border-blue-200 space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">
-                <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-2">Marca</label>
-                  <Input
-                    placeholder="Ex: Samsung, LG, Sony..."
-                    value={formData.brand}
-                    onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
-                    className="w-full"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-2">Modelo</label>
-                  <Input
-                    placeholder="Ex: 55 polegadas, 2020..."
-                    value={formData.model}
-                    onChange={(e) => setFormData({ ...formData, model: e.target.value })}
-                    className="w-full"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-2">Defeito</label>
-                  <Textarea
-                    placeholder="Descreva o problema que está acontecendo..."
-                    value={formData.defect}
-                    onChange={(e) => setFormData({ ...formData, defect: e.target.value })}
-                    className="w-full"
-                    rows={3}
-                  />
-                </div>
-              </div>
-            )}
-
-            <Button 
-              size="lg" 
-              className="w-full bg-green-500 hover:bg-green-600 text-white gap-2 mb-3"
-              onClick={handleWhatsApp}
-              disabled={!selectedService}
-            >
-              <MessageCircle className="w-5 h-5" />
-              Enviar pelo WhatsApp
-            </Button>
-            <p className="text-center text-xs sm:text-sm text-gray-600">
-              Sua mensagem será encaminhada diretamente para o nosso WhatsApp.
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* Partnerships Section */}
       <section id="parcerias" className="py-16 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -481,44 +398,128 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact Section with Map */}
+      {/* Contact Form Section with Map */}
       <section id="contato" className="py-16 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-3 gap-8 mb-12">
-            <div>
-              <h3 className="font-bold text-lg text-gray-900 mb-6 uppercase text-sm">WHATSAPP</h3>
-              <a 
-                href="tel:+5551996036223"
-                className="flex items-center gap-3 hover:text-blue-600 transition"
-              >
-                <Phone className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                <p className="font-semibold text-gray-900">(51) 9-9603-6223</p>
-              </a>
+          <div className="text-center mb-12">
+            <p className="text-xs font-mono text-blue-600 mb-2">[DIGITAL_DIAGNOSIS]</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">O que vamos consertar hoje?</h2>
+            <p className="text-gray-600 text-sm sm:text-base">
+              Selecione o tipo de aparelho, informe a marca e modelo, descreva o defeito. Sua mensagem será enviada diretamente para o nosso WhatsApp.
+            </p>
+          </div>
+          
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Form */}
+            <div className="lg:col-span-2">
+              <div className="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-200">
+                <p className="text-sm font-semibold text-gray-900 mb-4">1. Tipo de aparelho</p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
+                  {services.map((service) => {
+                    const Icon = service.icon;
+                    return (
+                      <button
+                        key={service.id}
+                        onClick={() => handleServiceSelect(service.id)}
+                        className={`p-4 rounded-lg border-2 transition-all text-center flex flex-col items-center gap-2 ${
+                          selectedService === service.id
+                            ? "border-green-500 bg-green-50"
+                            : "border-gray-200 hover:border-gray-300"
+                        }`}
+                      >
+                        <Icon className={`w-6 h-6 ${selectedService === service.id ? "text-green-600" : "text-gray-600"}`} />
+                        <span className="text-xs sm:text-sm font-medium text-gray-900">{service.title.split(" ")[0]}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Expandable Form Fields */}
+                {showFormFields && selectedService && (
+                  <div className="mb-8 p-4 bg-blue-50 rounded-lg border border-blue-200 space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-900 mb-2">Marca</label>
+                      <Input
+                        placeholder="Ex: Samsung, LG, Sony..."
+                        value={formData.brand}
+                        onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
+                        className="w-full"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-900 mb-2">Modelo</label>
+                      <Input
+                        placeholder="Ex: 55 polegadas, 2020..."
+                        value={formData.model}
+                        onChange={(e) => setFormData({ ...formData, model: e.target.value })}
+                        className="w-full"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-900 mb-2">Defeito</label>
+                      <Textarea
+                        placeholder="Descreva o problema que está acontecendo..."
+                        value={formData.defect}
+                        onChange={(e) => setFormData({ ...formData, defect: e.target.value })}
+                        className="w-full"
+                        rows={3}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                <Button 
+                  size="lg" 
+                  className="w-full bg-green-500 hover:bg-green-600 text-white gap-2 mb-3"
+                  onClick={handleWhatsApp}
+                  disabled={!selectedService}
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  Enviar pelo WhatsApp
+                </Button>
+                <p className="text-center text-xs sm:text-sm text-gray-600">
+                  Sua mensagem será encaminhada diretamente para o nosso WhatsApp.
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 className="font-bold text-lg text-gray-900 mb-6 uppercase text-sm">TELEFONE</h3>
-              <a 
-                href="tel:+5551204400563"
-                className="flex items-center gap-3 hover:text-blue-600 transition"
-              >
-                <Phone className="w-5 h-5 text-blue-600 flex-shrink-0" />
-                <p className="font-semibold text-gray-900">(51) 2040-0563</p>
-              </a>
-            </div>
-            <div>
-              <h3 className="font-bold text-lg text-gray-900 mb-6 uppercase text-sm">ENDEREÇO</h3>
-              <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" />
-                <div>
-                  <p className="font-semibold text-gray-900 text-sm">Rua Jaboti 42, Sala 203</p>
-                  <p className="text-sm text-gray-600">Novo Hamburgo — RS</p>
+
+            {/* Contact Info */}
+            <div className="space-y-6">
+              <div>
+                <h3 className="font-bold text-lg text-gray-900 mb-4 uppercase text-sm">WHATSAPP</h3>
+                <a 
+                  href="tel:+5551996036223"
+                  className="flex items-center gap-3 hover:text-blue-600 transition"
+                >
+                  <Phone className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                  <p className="font-semibold text-gray-900">(51) 9-9603-6223</p>
+                </a>
+              </div>
+              <div>
+                <h3 className="font-bold text-lg text-gray-900 mb-4 uppercase text-sm">TELEFONE</h3>
+                <a 
+                  href="tel:+5551204400563"
+                  className="flex items-center gap-3 hover:text-blue-600 transition"
+                >
+                  <Phone className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                  <p className="font-semibold text-gray-900">(51) 2040-0563</p>
+                </a>
+              </div>
+              <div>
+                <h3 className="font-bold text-lg text-gray-900 mb-4 uppercase text-sm">ENDEREÇO</h3>
+                <div className="flex items-start gap-3">
+                  <MapPin className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" />
+                  <div>
+                    <p className="font-semibold text-gray-900 text-sm">Rua Jaboti 42, Sala 203</p>
+                    <p className="text-sm text-gray-600">Novo Hamburgo — RS</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Map */}
-          <div className="rounded-xl overflow-hidden shadow-md h-96 mb-8">
+          <div className="mt-12 rounded-xl overflow-hidden shadow-md h-96">
             <iframe
               width="100%"
               height="100%"
