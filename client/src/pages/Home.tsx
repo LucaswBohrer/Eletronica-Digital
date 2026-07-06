@@ -1,9 +1,13 @@
 import { useState } from "react";
-import { MessageCircle, ChevronRight, Zap, Tv, Speaker, Microwave, Car, Battery, Wrench, Phone, MapPin, Clock, Mail } from "lucide-react";
+import { MessageCircle, ChevronRight, Zap, Tv, Speaker, Microwave, Car, Battery, Wrench, Phone, MapPin, Mail, Instagram, Facebook } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function Home() {
   const [selectedService, setSelectedService] = useState<string>("");
+  const [formData, setFormData] = useState({ brand: "", model: "", defect: "" });
+  const [showFormFields, setShowFormFields] = useState(false);
 
   const services = [
     {
@@ -62,6 +66,8 @@ export default function Home() {
     }
   ];
 
+  const allBrands = ["SounDigital", "Stetsom", "Taramps", "JFA", "Machine", "Planatc", "Kitec", "Datrel", "KXTRON"];
+
   const partners = [
     {
       name: "SounDigital",
@@ -110,18 +116,35 @@ export default function Home() {
     }
   ];
 
+  const handleServiceSelect = (serviceId: string) => {
+    if (selectedService === serviceId) {
+      setSelectedService("");
+      setShowFormFields(false);
+    } else {
+      setSelectedService(serviceId);
+      setShowFormFields(true);
+    }
+    setFormData({ brand: "", model: "", defect: "" });
+  };
+
   const handleWhatsApp = () => {
     const phoneNumber = "5551996036223";
-    let message = "Olá! Vim pelo site e gostaria de solicitar um orçamento";
+    const service = services.find(s => s.id === selectedService);
     
-    if (selectedService) {
-      const service = services.find(s => s.id === selectedService);
-      if (service) {
-        message += ` para: ${service.title}`;
-      }
+    let message = "Olá! Gostaria de solicitar um orçamento:\n\n";
+    message += `📱 Tipo de aparelho: ${service?.title || "Não especificado"}\n`;
+    
+    if (formData.brand) {
+      message += `🏷️ Marca: ${formData.brand}\n`;
+    }
+    if (formData.model) {
+      message += `📦 Modelo: ${formData.model}\n`;
+    }
+    if (formData.defect) {
+      message += `🔧 Defeito: ${formData.defect}\n`;
     }
     
-    message += ". Poderia me ajudar?";
+    message += "\nPoderia me ajudar?";
     
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, "_blank");
@@ -252,19 +275,52 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Authorized Partners Section */}
-      <section className="py-12 sm:py-16 bg-gray-50">
+      {/* Authorized Partners Carousel Section */}
+      <section className="py-12 sm:py-16 bg-gray-50 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
             <p className="text-xs font-mono text-blue-600 mb-2">[AUTHORIZED_PARTNERS]</p>
             <h3 className="text-2xl sm:text-3xl font-bold text-gray-900">Assistência Técnica Autorizada</h3>
           </div>
-          <div className="flex flex-wrap justify-center gap-4">
-            {partners.map((partner) => (
-              <span key={partner.name} className="text-sm text-gray-700 px-3 py-2 bg-white rounded-lg border border-gray-200">
-                {partner.name}
-              </span>
-            ))}
+          
+          {/* Carousel Animation */}
+          <div className="relative w-full overflow-hidden">
+            <style>{`
+              @keyframes scroll-brands {
+                0% {
+                  transform: translateX(0);
+                }
+                100% {
+                  transform: translateX(-50%);
+                }
+              }
+              .brands-carousel {
+                display: flex;
+                animation: scroll-brands 20s linear infinite;
+              }
+              .brands-carousel:hover {
+                animation-play-state: paused;
+              }
+              .brand-item {
+                flex-shrink: 0;
+                width: auto;
+                min-width: 150px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0 1rem;
+              }
+            `}</style>
+            
+            <div className="brands-carousel">
+              {[...allBrands, ...allBrands].map((brand, idx) => (
+                <div key={idx} className="brand-item">
+                  <span className="text-sm font-medium text-gray-700 whitespace-nowrap">
+                    {brand}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -288,7 +344,7 @@ export default function Home() {
                 return (
                   <button
                     key={service.id}
-                    onClick={() => setSelectedService(selectedService === service.id ? "" : service.id)}
+                    onClick={() => handleServiceSelect(service.id)}
                     className={`p-4 rounded-lg border-2 transition-all text-center flex flex-col items-center gap-2 ${
                       selectedService === service.id
                         ? "border-green-500 bg-green-50"
@@ -302,10 +358,45 @@ export default function Home() {
               })}
             </div>
 
+            {/* Expandable Form Fields */}
+            {showFormFields && selectedService && (
+              <div className="mb-8 p-4 bg-blue-50 rounded-lg border border-blue-200 space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                <div>
+                  <label className="block text-sm font-medium text-gray-900 mb-2">Marca</label>
+                  <Input
+                    placeholder="Ex: Samsung, LG, Sony..."
+                    value={formData.brand}
+                    onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
+                    className="w-full"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-900 mb-2">Modelo</label>
+                  <Input
+                    placeholder="Ex: 55 polegadas, 2020..."
+                    value={formData.model}
+                    onChange={(e) => setFormData({ ...formData, model: e.target.value })}
+                    className="w-full"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-900 mb-2">Defeito</label>
+                  <Textarea
+                    placeholder="Descreva o problema que está acontecendo..."
+                    value={formData.defect}
+                    onChange={(e) => setFormData({ ...formData, defect: e.target.value })}
+                    className="w-full"
+                    rows={3}
+                  />
+                </div>
+              </div>
+            )}
+
             <Button 
               size="lg" 
               className="w-full bg-green-500 hover:bg-green-600 text-white gap-2 mb-3"
               onClick={handleWhatsApp}
+              disabled={!selectedService}
             >
               <MessageCircle className="w-5 h-5" />
               Enviar pelo WhatsApp
@@ -390,10 +481,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact Section */}
+      {/* Contact Section with Map */}
       <section id="contato" className="py-16 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-3 gap-8 mb-12">
             <div>
               <h3 className="font-bold text-lg text-gray-900 mb-6 uppercase text-sm">WHATSAPP</h3>
               <a 
@@ -425,6 +516,19 @@ export default function Home() {
               </div>
             </div>
           </div>
+
+          {/* Map */}
+          <div className="rounded-xl overflow-hidden shadow-md h-96 mb-8">
+            <iframe
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3533.7869889274373!2d-51.13405!3d-29.708397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x951f1a8a8a8a8a8b%3A0x8a8a8a8a8a8a8a8a!2sRua%20Jaboti%2042%2C%20Novo%20Hamburgo%20-%20RS!5e0!3m2!1spt-BR!2sbr!4v1234567890"
+            ></iframe>
+          </div>
         </div>
       </section>
 
@@ -437,15 +541,15 @@ export default function Home() {
                 <Zap className="w-5 h-5 text-blue-400" />
                 <span className="font-bold text-sm">Eletrônica <span className="text-blue-400">Digital</span></span>
               </div>
-              <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
+              <p className="text-gray-400 text-xs sm:text-sm leading-relaxed mb-4">
                 30 anos restaurando a vida digital com precisão em Novo Hamburgo — RS.
               </p>
-              <div className="flex gap-4 mt-4">
+              <div className="flex gap-4">
                 <a href="#" className="text-gray-400 hover:text-white transition">
-                  <Mail className="w-4 h-4" />
+                  <Instagram className="w-4 h-4" />
                 </a>
                 <a href="#" className="text-gray-400 hover:text-white transition">
-                  <Phone className="w-4 h-4" />
+                  <Facebook className="w-4 h-4" />
                 </a>
               </div>
             </div>
