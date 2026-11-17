@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MessageCircle, ChevronRight, Zap, Tv, Speaker, Microwave, Car, Battery, Wrench, Phone, MapPin, Mail, Instagram, Facebook, Printer } from "lucide-react";
+import { MessageCircle, ChevronRight, Zap, Tv, Speaker, Microwave, Car, Battery, Wrench, Phone, MapPin, Mail, Instagram, Facebook, Printer, Music } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -24,8 +24,17 @@ export default function Home() {
       title: "Som Automotivo",
       description: "Assistência técnica autorizada em módulos amplificadores, fontes e centrais multimídia automotivas.",
       icon: Speaker,
-      brands: ["SounDigital", "Stetsom", "Taramps", "JFA", "Machine"],
+      brands: ["SounDigital", "Stetsom", "Taramps", "JFA"],
       label: "[AUDIO_SYS]",
+      image: "https://media.base44.com/images/public/6a4bcdbca474299fda1d1221/db3299299_generated_284f96f9.png"
+    },
+    {
+      id: "proaudio",
+      title: "Som Profissional",
+      description: "Assistência técnica autorizada em amplificadores e equipamentos de som profissional.",
+      icon: Music,
+      brands: ["Machine", "Datrel"],
+      label: "[PRO_AUDIO]",
       image: "https://media.base44.com/images/public/6a4bcdbca474299fda1d1221/db3299299_generated_284f96f9.png"
     },
     {
@@ -483,7 +492,7 @@ export default function Home() {
                         }`}
                       >
                         <Icon className={`w-6 h-6 ${selectedService === service.id ? "text-green-600" : "text-gray-600"}`} />
-                        <span className="text-xs sm:text-sm font-medium text-gray-900">{service.title.split(" ")[0]}</span>
+                        <span className="text-xs sm:text-sm font-medium text-gray-900">{service.id === "proaudio" ? "Profissional" : service.title.split(" ")[0]}</span>
                       </button>
                     );
                   })}
