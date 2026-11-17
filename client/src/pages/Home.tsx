@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MessageCircle, ChevronRight, Zap, Tv, Speaker, Microwave, Car, Battery, Wrench, Phone, MapPin, Mail, Instagram, Facebook } from "lucide-react";
+import { MessageCircle, ChevronRight, Zap, Tv, Speaker, Microwave, Car, Battery, Wrench, Phone, MapPin, Mail, Instagram, Facebook, Printer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -170,6 +170,7 @@ export default function Home() {
             <a href="#inicio" className="text-sm text-gray-700 hover:text-blue-600 transition">Início</a>
             <a href="#servicos" className="text-sm text-gray-700 hover:text-blue-600 transition">Serviços</a>
             <a href="#parcerias" className="text-sm text-gray-700 hover:text-blue-600 transition">Parcerias</a>
+            <a href="#3d-digital" className="text-sm text-gray-700 hover:text-blue-600 transition">3D Digital</a>
             <a href="#sobre" className="text-sm text-gray-700 hover:text-blue-600 transition">Sobre</a>
             <a href="#contato" className="text-sm text-gray-700 hover:text-blue-600 transition">Contato</a>
             <Button 
@@ -351,6 +352,60 @@ export default function Home() {
                 <p className="text-sm text-gray-600 leading-relaxed">{partner.description}</p>
               </a>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 3D Digital Section */}
+      <section id="3d-digital" className="py-16 sm:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="rounded-2xl overflow-hidden shadow-xl bg-[#0b0e12] grid lg:grid-cols-2">
+            <div className="p-8 sm:p-12">
+              <p className="text-xs font-mono text-[#34c759] mb-4">[3D_DIGITAL]</p>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 mb-6">
+                <Printer className="w-4 h-4 text-[#1b9ad6]" />
+                <span className="text-xs font-medium text-white">Uma marca da Eletrônica Digital</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
+                3D <span className="bg-gradient-to-r from-[#1b9ad6] to-[#34c759] bg-clip-text text-transparent">Digital</span>
+              </h2>
+              <p className="text-gray-300 mb-6 leading-relaxed text-sm sm:text-base">
+                Impressão 3D personalizada da Eletrônica Digital. Chaveiros, miniaturas, placas Pix e peças sob encomenda — feitas peça por peça, com envio para todo o Brasil.
+              </p>
+              <div className="flex flex-wrap gap-2 mb-8">
+                {["Chaveiros a partir de R$ 13", "Miniaturas", "Peças personalizadas"].map((tag) => (
+                  <span key={tag} className="text-xs px-3 py-1.5 rounded-full bg-white/10 text-gray-200 border border-white/10">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-[#1b9ad6] to-[#34c759] hover:opacity-90 text-white gap-2 w-full sm:w-auto"
+                  onClick={() => window.open("https://catalogo-3d-digital.vercel.app/", "_blank")}
+                >
+                  Ver catálogo
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="w-full sm:w-auto bg-transparent text-white border-white/30 hover:bg-white/10 hover:text-white gap-2"
+                  onClick={() => window.open("https://www.instagram.com/3ddigital.nh/", "_blank")}
+                >
+                  <Instagram className="w-5 h-5" />
+                  @3ddigital.nh
+                </Button>
+              </div>
+            </div>
+            <div className="relative min-h-[280px] lg:min-h-full">
+              <img
+                src="/impressao-3d-mustang.jpg"
+                alt="Miniatura Mustang GT500 impressa em 3D pela 3D Digital"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
@@ -570,6 +625,7 @@ export default function Home() {
                 <li><a href="#inicio" className="hover:text-white transition">Início</a></li>
                 <li><a href="#servicos" className="hover:text-white transition">Serviços</a></li>
                 <li><a href="#parcerias" className="hover:text-white transition">Parcerias</a></li>
+                <li><a href="#3d-digital" className="hover:text-white transition">3D Digital</a></li>
                 <li><a href="#sobre" className="hover:text-white transition">Sobre Nós</a></li>
                 <li><a href="#contato" className="hover:text-white transition">Contato</a></li>
               </ul>
